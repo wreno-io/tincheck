@@ -1,0 +1,28 @@
+{
+  "name": "tincheck",
+  "version": "0.0.1-beta",
+  "description": "NodeJS API Wrapper for accessing tincheck.com",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "author": "wreno-io",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsx watch --env-file=.env ./tests/tester",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "soap": "^1.0.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^20.12.4",
+    "esbuild": "^0.20.2",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.4",
+    "vitest": "^1.4.0"
+  }
+}
