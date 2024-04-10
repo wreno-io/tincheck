@@ -39,6 +39,35 @@ describe("Transform Response Utility", () => {
     });
   });
 
+  test("Should process sub-array objects", () => {
+    const transformed = transformResponse({
+      HELLO_WORLD: "Hello World",
+      HELLO: {
+        WORLD: [
+          {
+            HELLO_WORLD: "Hello World",
+          },
+          {
+            HELLO_WORLD: "Hello World",
+          },
+        ],
+      },
+    });
+    expect(transformed).toEqual({
+      helloWorld: "Hello World",
+      hello: {
+        world: [
+          {
+            helloWorld: "Hello World",
+          },
+          {
+            helloWorld: "Hello World",
+          },
+        ],
+      },
+    });
+  });
+
   test("Should remap keys if it is inside the overrides map", () => {
     const data = {
       REQUESTID: "123",

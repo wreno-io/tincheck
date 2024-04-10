@@ -16,9 +16,14 @@ interface TransformResponseOptions {
 export default function transformResponse(
   data: unknown,
   options?: TransformResponseOptions,
-) {
+): unknown {
   if (typeof data !== "object" || !data) {
-    throw new Error("Data must be an object");
+    throw new Error("Data must be an object or array");
+  }
+  if (Array.isArray(data)) {
+    return data.map((item: unknown) => {
+      return transformResponse(item, options);
+    });
   }
   return Object.entries(data).reduce<Record<string, unknown>>(
     (acc, [key, val]) => {
