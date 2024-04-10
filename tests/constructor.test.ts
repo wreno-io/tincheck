@@ -10,10 +10,20 @@ describe("TinCheck Constructor Tests", () => {
       });
     }).not.toThrow();
   });
-  test("TinCheck constructor should throw error if apiKey is not provided", () => {
+
+  test("TinCheck constructor should throw error if username and password is not provided", () => {
     expect(() => {
       // @ts-expect-error this is for testing purposes
       new TinCheck({});
+    }).toThrow("username and password is required");
+  });
+
+  test("TinCheck constructor should throw error if username is empty", () => {
+    expect(() => {
+      new TinCheck({
+        username: "",
+        password: "password",
+      });
     }).toThrow("username and password is required");
   });
 });

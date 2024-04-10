@@ -37,8 +37,6 @@ class TinCheck {
     const response = await this.send("ValidateTinNameAddressListMatch", {
       TinName: { TIN: sanitizedTin, LName: name },
     });
-    // const data = await fs.readFile(`tincheck-wreno.json`, "utf-8");
-    // const response = JSON.parse(data);
     const transformed = this.transformResponse(
       response,
       // TODO: We may want to validate this response before continuing
@@ -66,6 +64,7 @@ class TinCheck {
       },
       ...(args || {}),
     });
+    console.log("SEND");
     // TODO: error handling
     return response[0];
   }
