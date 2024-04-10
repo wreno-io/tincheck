@@ -1,6 +1,8 @@
-import TinCheck from "../src/index.js";
+import TinCheck from "../src/tincheck.js";
 import fs from "fs/promises";
-import transformResponse from "../src/transformResponse.js";
+import transformResponse from "../src/transformResponse/transformResponse.js";
+import keyOverrides from "../src/transformResponse/keyOverrides.js";
+import valueMappers from "../src/transformResponse/valueMappers.js";
 
 (async () => {
   const tincheck = new TinCheck({
@@ -10,14 +12,9 @@ import transformResponse from "../src/transformResponse.js";
 
   try {
     const id = "83-33334454430";
-    const name = "Bad Name";
-    // const check = await tincheck.validate(id, name);
-    // console.log("tin check response", check);
-    // await fs.writeFile(`tincheck-${name}.json`, JSON.stringify(check, null, 2));
-    const data = await fs.readFile(`tincheck-${name}.json`, "utf-8");
-    const json = JSON.parse(data);
-    console.log(json);
-    transformResponse(json);
+    const name = "wreno";
+    const check = await tincheck.validate(id, name);
+    console.log(check);
   } catch (err) {
     console.log(err.message);
   }

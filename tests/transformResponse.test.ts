@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import transformResponse from "../src/transformResponse.js";
+import transformResponse from "../src/transformResponse/transformResponse.js";
 
 describe("Transform Response Utility", () => {
   test("Should convert object keys to camelCase", () => {
@@ -56,6 +56,30 @@ describe("Transform Response Utility", () => {
       requestId: "123",
       subRequestId: {
         requestId: "123",
+      },
+    });
+  });
+
+  test("Should call remap value function if provided", () => {
+    const data = {
+      REQUESTID: "123",
+      SUBREQUESTID: {
+        REQUESTID: "123",
+      },
+    };
+    const transformed = transformResponse(data, {
+      keyOverrides: {
+        REQUESTID: "requestId",
+        SUBREQUESTID: "subRequestId",
+      },
+      valueMappers: {
+        REQUESTID: (val: unknown) => Number(val),
+      },
+    });
+    expect(transformed).toEqual({
+      requestId: 123,
+      subRequestId: {
+        requestId: 123,
       },
     });
   });

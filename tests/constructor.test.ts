@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import TinCheck from "../src/index.js";
+import TinCheck from "../src/tincheck.js";
 
 describe("TinCheck Constructor Tests", () => {
   test("TinCheck constructor should not throw when set correctly", () => {
