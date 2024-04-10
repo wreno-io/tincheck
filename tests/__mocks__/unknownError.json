@@ -1,0 +1,33 @@
+{
+  "ValidateTinNameAddressListMatchResult": {
+    "REQUESTID": 1,
+    "REQUEST_STATUS": "1",
+    "REQUEST_DETAILS": "Request Completed",
+    "TINNAME_RESULT": {
+      "TINNAME_CODE": "-1",
+      "TINNAME_DETAILS": "No TIN provided. TIN lookup skipped.",
+      "DMF_CODE": "-1",
+      "DMF_DETAILS": "No TIN provided. DMF lookup skipped.",
+      "DMF_DATA": "",
+      "EIN_CODE": "-1",
+      "EIN_DETAILS": "No TIN provided. EIN lookup skipped.",
+      "EIN_DATA": "",
+      "GIIN_CODE": "-1",
+      "GIIN_DETAILS": "No GIIN provided. GIIN lookup skipped.",
+      "GIIN_DATA": ""
+    },
+    "LISTMATCH_RESULT": {
+      "LISTSMATCH_CODE": "17",
+      "LISTSMATCH_DETAILS": "There was an error processing lists.",
+      "Results": null
+    },
+    "ADDRESS_RESULT": {
+      "ADDRESS_CODE": "0",
+      "ADDRESS_DETAILS": "No USPS Match found."
+    },
+    "STATUS": {
+      "Status": "OK",
+      "CallsRemaining": "76"
+    }
+  }
+}

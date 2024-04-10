@@ -9,12 +9,14 @@
   "license": "MIT",
   "author": "wreno-io",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "tsx watch --env-file=.env ./tests/tester",
     "test": "vitest"
   },
   "dependencies": {
+    "camelcase": "^8.0.0",
     "soap": "^1.0.0"
   },
   "devDependencies": {

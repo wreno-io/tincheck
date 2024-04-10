@@ -1,11 +1,12 @@
 import { describe, expect, test } from "vitest";
-import TinCheck from "../src";
+import TinCheck from "../src/index.js";
 
 describe("TinCheck Constructor Tests", () => {
   test("TinCheck constructor should not throw when set correctly", () => {
     expect(() => {
       new TinCheck({
-        apiKey: "aaa",
+        username: "username",
+        password: "password",
       });
     }).not.toThrow();
   });
@@ -13,6 +14,6 @@ describe("TinCheck Constructor Tests", () => {
     expect(() => {
       // @ts-expect-error this is for testing purposes
       new TinCheck({});
-    }).toThrow("apiKey is required");
+    }).toThrow("username and password is required");
   });
 });
