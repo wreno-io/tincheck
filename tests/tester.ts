@@ -1,3 +1,4 @@
+import fs from "node:fs/promises";
 import TinCheck from "../src/tincheck.js";
 
 (async () => {
@@ -11,6 +12,7 @@ import TinCheck from "../src/tincheck.js";
     const name = "wreno";
     const check = await tincheck.validate(id, name);
     console.log(check);
+    await fs.writeFile(`tincheck-${name}.json`, JSON.stringify(check, null, 2));
   } catch (err: unknown) {
     console.log(err);
   }
