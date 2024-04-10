@@ -42,4 +42,3 @@ This package is written in Typescript and includes type definitions for the resp
 - add tests
 - add more error handling
 - add more comments
-- Test Build/Install Process
