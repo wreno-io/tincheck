@@ -1,4 +1,4 @@
-import { ValueMappers } from "./transformResponse.js";
+import type { ValueMappers } from "./transformResponse.js";
 
 function toNumber(val: unknown) {
   return Number(val);

@@ -1,4 +1,4 @@
-import { KeyOverrides, ValueMappers } from "./transformResponse.js";
+import type { KeyOverrides } from "./transformResponse.js";
 
 const keyOverrides: KeyOverrides = {
   REQUESTID: "requestId",

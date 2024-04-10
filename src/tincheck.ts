@@ -1,10 +1,8 @@
 import * as soap from "soap";
-import fs from "fs/promises";
-import transformResponse from "./transformResponse/transformResponse.js";
 import keyOverrides from "./transformResponse/keyOverrides.js";
+import transformResponse from "./transformResponse/transformResponse.js";
 import valueMappers from "./transformResponse/valueMappers.js";
-import { transform } from "esbuild";
-import { ValidateTinNameAddressListMatchResponse } from "./types/ValidateTinResponse.js";
+import type { ValidateTinNameAddressListMatchResponse } from "./types/ValidateTinResponse.js";
 
 interface ConstructorArgs {
   username: string;
@@ -35,24 +33,24 @@ class TinCheck {
 
   async validate(tin: string, name: string) {
     // remove dashes from tin
-    tin = tin.replace(/-/g, "");
+    const sanitizedTin = tin.replace(/-/g, "");
     const response = await this.send("ValidateTinNameAddressListMatch", {
-      TinName: { TIN: tin, LName: name },
+      TinName: { TIN: sanitizedTin, LName: name },
     });
     // const data = await fs.readFile(`tincheck-wreno.json`, "utf-8");
     // const response = JSON.parse(data);
     const transformed = this.transformResponse(
-      response
+      response,
       // TODO: We may want to validate this response before continuing
     ) as ValidateTinNameAddressListMatchResponse;
 
-    if (!transformed["validateTinNameAddressListMatchResult"]) {
+    if (!transformed.validateTinNameAddressListMatchResult) {
       throw new Error("Incorrect Response from Service");
     }
-    const result = transformed["validateTinNameAddressListMatchResult"];
-    if (result["requestStatus"] !== 1) {
+    const result = transformed.validateTinNameAddressListMatchResult;
+    if (result.requestStatus !== 1) {
       throw new Error(
-        `Request Turned incorrect REQUEST_STATUS code ${result.requestStatus}`
+        `Request Turned incorrect REQUEST_STATUS code ${result.requestStatus}`,
       );
     }
     return result;
@@ -60,7 +58,7 @@ class TinCheck {
 
   async send(func: string, args?: Record<string, any>) {
     const client = await this.client;
-    const endpoint = client[func + "Async"];
+    const endpoint = client[`${func}Async`];
     const response = await endpoint({
       CurUser: {
         UserLogin: this.username,

@@ -13,23 +13,23 @@ interface TransformResponseOptions {
  * Recursively transforms the keys of an object to camelCase,
  * and optionally remaps keys and values based on the options provided
  */
-export default function transformResponse<T>(
+export default function transformResponse(
   data: unknown,
-  options?: TransformResponseOptions
-): T {
+  options?: TransformResponseOptions,
+) {
   if (typeof data !== "object" || !data) {
     throw new Error("Data must be an object");
   }
   return Object.entries(data).reduce<Record<string, unknown>>(
     (acc, [key, val]) => {
-      let newVal =
+      const newVal =
         val && typeof val === "object"
           ? transformResponse(val, options)
           : transformValue(key, val, options?.valueMappers);
       acc[changeCase(key, options?.keyOverrides)] = newVal;
       return acc;
     },
-    {}
+    {},
   );
 }
 
@@ -52,7 +52,7 @@ function changeCase(key: string, keyOverrides: KeyOverrides = {}): string {
 function transformValue(
   originalKey: string,
   value: unknown,
-  valueMappers: ValueMappers = {}
+  valueMappers: ValueMappers = {},
 ) {
   if (valueMappers[originalKey]) {
     return valueMappers[originalKey](value);
