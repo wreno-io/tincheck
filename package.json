@@ -8,10 +8,10 @@
   },
   "license": "MIT",
   "author": "wreno-io",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --outfile=dist/index.js --packages=external",
     "start": "tsx watch --env-file=.env ./tests/tester",
     "test": "vitest",
     "lint": "npx @biomejs/biome check --apply . && tsc --noEmit"
