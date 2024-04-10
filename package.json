@@ -8,23 +8,31 @@
   },
   "license": "MIT",
   "author": "wreno-io",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "require": "./dist/index.cjs",
+    "import": "./dist/index.js",
+    "types": "./dist/index.d.ts"
+  },
   "type": "module",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --outfile=dist/index.js --packages=external",
+    "build": "tsup src/index.ts --format=cjs,esm --dts --clean",
     "start": "tsx watch --env-file=.env ./tests/tester",
     "test": "vitest",
+    "prepublishOnly": "npm run build",
     "lint": "npx @biomejs/biome check --apply . && tsc --noEmit"
   },
   "dependencies": {
-    "camelcase": "^8.0.0",
+    "camelcase": "^6.3.0",
     "soap": "^1.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.6.4",
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.12.4",
-    "esbuild": "^0.20.2",
+    "tsup": "^8.0.2",
     "tsx": "^4.7.2",
     "typescript": "^5.4.4",
     "vitest": "^1.4.0"
