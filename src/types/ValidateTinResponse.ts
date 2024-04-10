@@ -14,7 +14,7 @@ export interface Root {
 }
 
 export interface TinnameResult {
-  tinnameCode: string;
+  tinnameCode: number;
   tinnameDetails: string;
   dmfCode: string;
   dmfDetails: string;

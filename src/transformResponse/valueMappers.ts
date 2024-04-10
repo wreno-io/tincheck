@@ -7,6 +7,7 @@ function toNumber(val: unknown) {
 const valueMappers: ValueMappers = {
   REQUESTID: toNumber,
   REQUEST_STATUS: toNumber,
+  TINNAME_CODE: toNumber,
 };
 
 export default valueMappers;
