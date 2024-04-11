@@ -2,6 +2,15 @@
 
 A simple tool to run a TIN Check through [tincheck.com](https://tincheck.com/).
 
+## Features
+
+- 🚀 Easy to use
+- 🧐 Validate an EIN/SSN with a name through [tincheck.com](https://tincheck.com/)
+- ℹ️ Get detailed information about the validation result
+- 🎹 Written in Typescript
+- ✅ Includes mock data for testing
+- 🌡️ 100% test coverage
+
 ## Prerequisites
 
 - A valid account on [tincheck.com](https://tincheck.com/)
@@ -23,21 +32,53 @@ const tinCheck = new TinCheck({
   username: "your-username",
   password: "your-password",
 });
-const result = await tinCheck.validate("123456789" "ACME Corp")
+const result = await tinCheck.validate("123456789" "ACME Corp");
+// Result will contain a normalized overview of the results,
+// as well as a detailed response from the API
 console.log(result);
 ```
 
 ## API Reference
 
+This repository also provides detailed tests which you can use to [see various examples](./tests/constructor.test.ts) of how to use the API.
 
+### validate 
+
+The TinCheck library exposes several methods. The primary method is `validate`, which takes an EIN/SSN and a name as arguments. This method returns a promise that resolves to an object containing the validation result.
+
+```typescript
+type ValidateResponse = {
+  success: true;
+  data: {
+    didPerformTinCheck: boolean;
+    isTinCheckIssuesFound: boolean;
+    errorSummary: string[];
+    tinCheckItemBreakdown: {
+      type: string;
+      isIssueFound: boolean;
+      details: string;
+    }[];
+  };
+  detailedResponse: DetailedValidateTinNameAddressListMatchResponse["validateTinNameAddressListMatchResult"];
+};
+```
+
+See [./src/types/ValidateResponse.ts](./src/types/ValidateResponse.ts) for more information.
+
+Additionally, this method will throw an error if the API request fails. The error will contain the response from the API.
+
+It's important to note that the `validate` method will return a successful response even if the EIN/SSN is invalid. The `success` property in the response object indicates that the request was successful, not that the EIN/SSN is valid. To determine if the EIN/SSN is valid, you should check the `isTinCheckIssuesFound` and `didPerformTinCheck` properties in the response object.
+
+### Error Codes
+
+The TinCheck API may return an error code if the request fails. The error code is included in the response object under the `errorSummary` property. The error code will be a string that describes the error that occurred.
+
+You may also get back a `REQUEST_STATUS` error code or other error codes. These error codes are not specific to our code, but rather the API response. To get details on the error you receive, [go here](https://www.tincheck.com/pages/developer), click `ValidateTinNameAddressListMatch` (or respective method), and view the error code tables. For example, `REQUEST_STATUS` error code 10 is: `Login denied: Invalid User Login and/or Password`
+
+### Additional Information
 
 Check out the [tincheck API documentation](https://www.tincheck.com/pages/developer) for more information.
 
-This repository also provides detailed tests which you can use to [see various examples](./tests/constructor.test.ts) of how to use the API.
-
-> Getting an error code?
->
-> rror codes go here: https://www.tincheck.com/pages/developer click ValidateTinNameAddressListMatch  fro example, yours is 10	Login denied: Invalid User Login and/or Password
 
 ## Typescript
 
@@ -67,10 +108,6 @@ We suggest fixing the issue in the following steps if it involves an API respons
 4. Run `yarn test` to ensure the new test passes.
 5. Submit a pull request with the new test and response file.
 
+## Sponsored by
 
-## TODO
-
-- network error test
-- update readme
-- wreno sponsorship note
-- publish
+This package is sponsored by [Wreno](https://wreno.io/), a platform for complete vendor sourcing and management. Wreno is a platform that helps you find, vet, and manage vendors for your business. It also performs TIN checks on your behalf, so you can focus on growing your business. 😉 
