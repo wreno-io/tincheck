@@ -1,10 +1,10 @@
 {
   "name": "tincheck",
-  "version": "0.0.1-beta",
+  "version": "1.0.0-beta.1",
   "description": "NodeJS API Wrapper for accessing tincheck.com",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/wreno-io/tincheck"
   },
   "license": "MIT",
   "author": "wreno-io",
