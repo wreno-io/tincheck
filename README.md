@@ -39,6 +39,7 @@ This package is written in Typescript and includes type definitions for the resp
 
 ## TODO
 
-- add tests
-- add more error handling
-- add more comments
+- network error test
+- update readme
+- wreno sponsorship note
+- publish

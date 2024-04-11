@@ -1,7 +1,7 @@
 import { writeFile } from "node:fs/promises";
-import unknownError from "./mockServerResponses/unknownError.json";
-import validEINNoIssues from "./mockServerResponses/validEIN-noIssues.json";
-import validEINIssuesFound from "./mockServerResponses/validEIN-issuesFound.json";
+import unknownError from "./__mocks__/unknownError.json";
+import validEINNoIssues from "./__mocks__/validEIN-noIssues.json";
+import validEINIssuesFound from "./__mocks__/validEIN-issuesFound.json";
 import { describe, expect, afterEach, vi, test } from "vitest";
 import TinCheck from "../src/tincheck.js";
 import type { ValidateResponse } from "../src/types/ValidateResponse.js";
