@@ -18,7 +18,7 @@
   },
   "type": "module",
   "scripts": {
-    "build": "tsup src/index.ts --format=cjs,esm --dts --clean",
+    "build": "tsup src/index.ts --format=cjs,esm --dts --clean --publicDir",
     "start": "tsx watch --env-file=.env ./tests/tester",
     "test": "vitest",
     "prepublishOnly": "npm run build",

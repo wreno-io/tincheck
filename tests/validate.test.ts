@@ -1,8 +1,33 @@
+import { writeFile } from "node:fs/promises";
 import unknownError from "./mockServerResponses/unknownError.json";
 import validEINNoIssues from "./mockServerResponses/validEIN-noIssues.json";
 import validEINIssuesFound from "./mockServerResponses/validEIN-issuesFound.json";
 import { describe, expect, afterEach, vi, test } from "vitest";
 import TinCheck from "../src/tincheck.js";
+import type { ValidateResponse } from "../src/types/ValidateResponse.js";
+
+/**
+ * Utility function to ensure that the snapshot matches.
+ * This function also writes the response to the mockResponses folder.
+ * This mockResponses folder is included in the published package
+ * so that consumers can see the actual response from the server, if they
+ * need to test/mock specific use cases.
+ *
+ * The mockResponses folder is not updated unless the snapshot is updated.
+ */
+async function toMatchMockResponse(
+  fileName: string,
+  response: ValidateResponse,
+) {
+  expect(response).toMatchSnapshot();
+  // sync the mock response with the actual response
+  // this should not yield any changes if the snapshot is correct
+  // unless the snapshot is changing with `-u`
+  await writeFile(
+    `./public/mockResponses/${fileName}.json`,
+    JSON.stringify(response),
+  );
+}
 
 describe("TinCheck Validate Method Tests", () => {
   const tinCheck = new TinCheck({
@@ -31,13 +56,14 @@ describe("TinCheck Validate Method Tests", () => {
 
   test("Should report when tin lookup failed", async () => {
     vi.spyOn(tinCheck, "send").mockReturnValue(Promise.resolve(unknownError));
-    const result = await tinCheck.validate("111-111-111", "222");
-    expect(result.success).toBe(true);
-    expect(result.data.didPerformTinCheck).toBe(false);
-    expect(result.data.isTinCheckIssuesFound).toBe(false);
-    expect(result.data.errorSummary).toEqual([
+    const response = await tinCheck.validate("111-111-111", "222");
+    expect(response.success).toBe(true);
+    expect(response.data.didPerformTinCheck).toBe(false);
+    expect(response.data.isTinCheckIssuesFound).toBe(false);
+    expect(response.data.errorSummary).toEqual([
       "No TIN provided. TIN lookup skipped.",
     ]);
+    await toMatchMockResponse("UnknownError", response);
   });
 
   test("should report successfully when lookup is successful", async () => {
@@ -48,9 +74,7 @@ describe("TinCheck Validate Method Tests", () => {
     expect(response.data.didPerformTinCheck).toBe(true);
     expect(response.data.isTinCheckIssuesFound).toBe(false);
     expect(response.data.errorSummary).toEqual([]);
-    // expect(response).toMatchFileSnapshot(
-    //   "./mockInternalResponses/validEIN-noIssues.json",
-    // );
+    await toMatchMockResponse("ValidEIN-NoIssues", response);
   });
 
   test("should report successfully when lookup is successful but issues found", async () => {
@@ -63,8 +87,6 @@ describe("TinCheck Validate Method Tests", () => {
     expect(response.data.errorSummary).toEqual([
       "Department of Treasury, Office of Foreign Assets Control (OFAC SDN/PLC): Found a possible match",
     ]);
-    // expect(response).toMatchFileSnapshot(
-    //   "./mockInternalResponses/validEIN-noIssues.json",
-    // );
+    await toMatchMockResponse("ValidEIN-WithIssues", response);
   });
 });
