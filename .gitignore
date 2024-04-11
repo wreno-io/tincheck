@@ -3,3 +3,4 @@ node_modules
 tincheck-*.json
 dist
 .DS_Store
+package
