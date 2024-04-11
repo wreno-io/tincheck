@@ -1,6 +1,6 @@
+import * as soap from "soap";
 import { describe, expect, test, vi } from "vitest";
 import TinCheck from "../src/index.js";
-import * as soap from "soap";
 
 describe("TinCheck send Method Tests", () => {
   test("Method exists", () => {
@@ -50,10 +50,11 @@ describe("TinCheck send Method Tests", () => {
     const mockResponse = {
       requestStatus: 1,
     };
+    const mockFn = vi.fn(() => Promise.resolve([mockResponse]));
     vi.spyOn(soap, "createClientAsync").mockReturnValue(
       // @ts-expect-error
       Promise.resolve({
-        TestAsync: () => Promise.resolve([mockResponse]),
+        TestAsync: mockFn,
       }),
     );
     const tincheck = new TinCheck({
@@ -62,5 +63,35 @@ describe("TinCheck send Method Tests", () => {
     });
     const result = await tincheck.send("Test", {});
     expect(result).toBe(mockResponse);
+    expect(mockFn).toBeCalled();
+  });
+
+  test("Should add additional arguments to soap method", async () => {
+    const mockResponse = {
+      requestStatus: 1,
+    };
+    const mockFn = vi.fn(() => Promise.resolve([mockResponse]));
+    vi.spyOn(soap, "createClientAsync").mockReturnValue(
+      // @ts-expect-error
+      Promise.resolve({
+        TestAsync: mockFn,
+      }),
+    );
+    const tincheck = new TinCheck({
+      username: "username",
+      password: "password",
+    });
+    const result = await tincheck.send("Test", {
+      additional: "argument",
+    });
+    expect(result).toBe(mockResponse);
+    expect(mockFn).toBeCalled();
+    expect(mockFn).toBeCalledWith({
+      CurUser: {
+        UserLogin: "username",
+        UserPassword: "password",
+      },
+      additional: "argument",
+    });
   });
 });

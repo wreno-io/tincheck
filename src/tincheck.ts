@@ -1,10 +1,10 @@
 import * as soap from "soap";
+import normalizeTinCheckResponse from "./normalizers/normalizeTinCheckResponse.js";
 import keyOverrides from "./transformResponse/keyOverrides.js";
 import transformResponse from "./transformResponse/transformResponse.js";
 import valueMappers from "./transformResponse/valueMappers.js";
 import type { DetailedValidateTinNameAddressListMatchResponse } from "./types/DetailedValidateTinResponse.js";
 import type { ValidateResponse } from "./types/ValidateResponse.js";
-import normalizeTinCheckResponse from "./normalizers/normalizeTinCheckResponse.js";
 
 interface ConstructorArgs {
   username: string;
@@ -30,7 +30,7 @@ class TinCheck {
   }
 
   async getServiceStatus() {
-    return await this.send("ServiceStatus");
+    return await this.send("ServiceStatus", {});
   }
 
   async validate(tin: string, name: string): Promise<ValidateResponse> {
@@ -58,7 +58,7 @@ class TinCheck {
     return normalizeTinCheckResponse(result);
   }
 
-  async send(func: string, args?: Record<string, any>) {
+  async send(func: string, args: Record<string, any>) {
     try {
       const client = await this.client;
       const endpoint = client[`${func}Async`];
@@ -67,7 +67,7 @@ class TinCheck {
           UserLogin: this.username,
           UserPassword: this.password,
         },
-        ...(args || {}),
+        ...args,
       });
       if (!response || !response.length) {
         throw new Error("TinCheck received an incorrect response");

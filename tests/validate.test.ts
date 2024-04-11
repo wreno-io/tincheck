@@ -1,13 +1,13 @@
 import { writeFile } from "node:fs/promises";
-import unknownError from "./__mocks__/unknownError.json";
-import validEINNoIssues from "./__mocks__/validEIN-noIssues.json";
-import validEINIssuesFound from "./__mocks__/validEIN-issuesFound.json";
-import loginFailed from "./__mocks__/loginFailed.json";
-import invalidFormatting from "./__mocks__/invalidFormatting.json";
-import invalidEIN from "./__mocks__/invalidEIN.json";
-import { describe, expect, afterEach, vi, test } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import TinCheck from "../src/tincheck.js";
 import type { ValidateResponse } from "../src/types/ValidateResponse.js";
+import invalidEIN from "./__mocks__/invalidEIN.json";
+import invalidFormatting from "./__mocks__/invalidFormatting.json";
+import loginFailed from "./__mocks__/loginFailed.json";
+import unknownError from "./__mocks__/unknownError.json";
+import validEINIssuesFound from "./__mocks__/validEIN-issuesFound.json";
+import validEINNoIssues from "./__mocks__/validEIN-noIssues.json";
 
 /**
  * Utility function to ensure that the snapshot matches.
