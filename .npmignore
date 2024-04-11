@@ -1,6 +1,4 @@
-tests
-src
-*.json
-node_modules
-.env
-.vscode
+**
+!dist/**
+!package.json
+!README.md
