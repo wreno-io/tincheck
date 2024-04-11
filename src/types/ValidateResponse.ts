@@ -6,8 +6,11 @@ export type ValidateResponse = {
     didPerformTinCheck: boolean;
     isTinCheckIssuesFound: boolean;
     errorSummary: string[];
-    // todo: add type for this
-    tinCheckItemBreakdown: [];
+    tinCheckItemBreakdown: {
+      type: string;
+      isIssueFound: boolean;
+      details: string;
+    }[];
   };
   detailedResponse: DetailedValidateTinNameAddressListMatchResponse["validateTinNameAddressListMatchResult"];
 };

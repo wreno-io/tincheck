@@ -1,5 +1,6 @@
-import unknownError from "./__mocks__/unknownError.json";
-import validEIN from "./__mocks__/validEIN-noIssues.json";
+import unknownError from "./mockServerResponses/unknownError.json";
+import validEINNoIssues from "./mockServerResponses/validEIN-noIssues.json";
+import validEINIssuesFound from "./mockServerResponses/validEIN-issuesFound.json";
 import { describe, expect, afterEach, vi, test } from "vitest";
 import TinCheck from "../src/tincheck.js";
 
@@ -40,10 +41,30 @@ describe("TinCheck Validate Method Tests", () => {
   });
 
   test("should report successfully when lookup is successful", async () => {
-    vi.spyOn(tinCheck, "send").mockReturnValue(Promise.resolve(validEIN));
+    vi.spyOn(tinCheck, "send").mockReturnValue(
+      Promise.resolve(validEINNoIssues),
+    );
     const response = await tinCheck.validate("111-111-111", "222");
     expect(response.data.didPerformTinCheck).toBe(true);
     expect(response.data.isTinCheckIssuesFound).toBe(false);
     expect(response.data.errorSummary).toEqual([]);
+    // expect(response).toMatchFileSnapshot(
+    //   "./mockInternalResponses/validEIN-noIssues.json",
+    // );
+  });
+
+  test("should report successfully when lookup is successful but issues found", async () => {
+    vi.spyOn(tinCheck, "send").mockReturnValue(
+      Promise.resolve(validEINIssuesFound),
+    );
+    const response = await tinCheck.validate("111-111-111", "222");
+    expect(response.data.didPerformTinCheck).toBe(true);
+    expect(response.data.isTinCheckIssuesFound).toBe(true);
+    expect(response.data.errorSummary).toEqual([
+      "Department of Treasury, Office of Foreign Assets Control (OFAC SDN/PLC): Found a possible match",
+    ]);
+    // expect(response).toMatchFileSnapshot(
+    //   "./mockInternalResponses/validEIN-noIssues.json",
+    // );
   });
 });

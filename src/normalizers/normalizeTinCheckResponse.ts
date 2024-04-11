@@ -24,15 +24,31 @@ export default function normalizeTinCheckResponse(
       detailedResponse: request,
     };
   }
+  const isTinCheckIssuesFound =
+    request.listmatchResult.listsmatchCode !== VALID_LISTMATCH_CODE;
+  const tinCheckItemBreakdown = getTinCheckItemBreakdown(request);
   return {
     success: true,
     data: {
       didPerformTinCheck,
-      isTinCheckIssuesFound:
-        request.listmatchResult.listsmatchCode !== VALID_LISTMATCH_CODE,
-      errorSummary: [],
-      tinCheckItemBreakdown: [],
+      isTinCheckIssuesFound,
+      errorSummary: tinCheckItemBreakdown
+        .filter((i) => i.isIssueFound)
+        .map((i) => i.details),
+      tinCheckItemBreakdown,
     },
     detailedResponse: request,
   };
+}
+
+function getTinCheckItemBreakdown(
+  request: DetailedValidateTinNameAddressListMatchResponse["validateTinNameAddressListMatchResult"],
+) {
+  return request.listmatchResult.results.result.map((item) => {
+    return {
+      type: item.type,
+      isIssueFound: item.count > 0,
+      details: item.details,
+    };
+  });
 }
