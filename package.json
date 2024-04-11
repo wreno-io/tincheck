@@ -12,9 +12,12 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "require": "./dist/index.cjs",
-    "import": "./dist/index.js",
-    "types": "./dist/index.d.ts"
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./types": "./dist/index.d.ts",
+    "./mockResponses/*": "./dist/mockResponses/*"
   },
   "type": "module",
   "scripts": {
