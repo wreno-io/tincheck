@@ -69,7 +69,7 @@ describe("TinCheck Validate Method Tests", () => {
     await toMatchMockResponse("UnknownError", response);
   });
 
-  test("Should report when login credentials are invalid", async () => {
+  test("Should throw when login credentials are invalid", async () => {
     vi.spyOn(tinCheck, "send").mockReturnValue(Promise.resolve(loginFailed));
     await expect(() => tinCheck.validate("111-111-111", "222")).rejects.toThrow(
       "Request returned incorrect REQUEST_STATUS code 10",

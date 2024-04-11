@@ -43,11 +43,6 @@ class TinCheck {
       response,
       // TODO: We may want to add validation to the response before continuing
     ) as DetailedValidateTinNameAddressListMatchResponse;
-
-    // If the response is not what we expect, throw an error
-    if (!transformed.validateTinNameAddressListMatchResult) {
-      throw new Error("Incorrect Response from Service");
-    }
     // If the request status is not 1, throw an error
     // 1 is the expected value for a successful request
     const result = transformed.validateTinNameAddressListMatchResult;
@@ -64,16 +59,23 @@ class TinCheck {
   }
 
   async send(func: string, args?: Record<string, any>) {
-    const client = await this.client;
-    const endpoint = client[`${func}Async`];
-    const response = await endpoint({
-      CurUser: {
-        UserLogin: this.username,
-        UserPassword: this.password,
-      },
-      ...(args || {}),
-    });
-    return response[0];
+    try {
+      const client = await this.client;
+      const endpoint = client[`${func}Async`];
+      const response = await endpoint({
+        CurUser: {
+          UserLogin: this.username,
+          UserPassword: this.password,
+        },
+        ...(args || {}),
+      });
+      if (!response || !response.length) {
+        throw new Error("TinCheck received an incorrect response");
+      }
+      return response[0];
+    } catch (err) {
+      throw new Error("TinCheck request failed", { cause: err });
+    }
   }
 
   private transformResponse(data: unknown) {
