@@ -17,7 +17,7 @@ export default function normalizeTinCheckResponse(
       success: true,
       data: {
         didPerformTinCheck,
-        isTinCheckIssuesFound: false,
+        isTinCheckIssuesFound: true,
         errorSummary: [request.tinnameResult.tinnameDetails],
         tinCheckItemBreakdown: [],
       },
