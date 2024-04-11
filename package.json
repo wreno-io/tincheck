@@ -22,7 +22,7 @@
   "type": "module",
   "scripts": {
     "build": "tsup src/index.ts --format=cjs,esm --dts --clean --publicDir",
-    "start": "tsx watch --env-file=.env ./tests/tester",
+    "debug": "tsx watch --env-file=.env ./tests/getRawResponse",
     "test": "vitest",
     "prepublishOnly": "npm run build",
     "lint": "npx @biomejs/biome check --apply . && tsc --noEmit"
