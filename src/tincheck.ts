@@ -53,7 +53,7 @@ class TinCheck {
     const result = transformed.validateTinNameAddressListMatchResult;
     if (result.requestStatus !== 1) {
       throw new Error(
-        `Request Turned incorrect REQUEST_STATUS code ${result.requestStatus}`,
+        `Request returned incorrect REQUEST_STATUS code ${result.requestStatus}`,
       );
     }
     // At this point, we know the request is successful,

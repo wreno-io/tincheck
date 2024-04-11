@@ -1,0 +1,33 @@
+{
+  "ValidateTinNameAddressListMatchResult": {
+    "REQUESTID": 0,
+    "REQUEST_STATUS": "10",
+    "REQUEST_DETAILS": "Login denied: Invalid Username or Password",
+    "TINNAME_RESULT": {
+      "TINNAME_CODE": "10",
+      "TINNAME_DETAILS": "Login denied: Invalid Username or Password",
+      "DMF_CODE": "10",
+      "DMF_DETAILS": "Login denied: Invalid Username or Password",
+      "DMF_DATA": "",
+      "EIN_CODE": "10",
+      "EIN_DETAILS": "Login denied: Invalid Username or Password",
+      "EIN_DATA": "",
+      "GIIN_CODE": "10",
+      "GIIN_DETAILS": "Login denied: Invalid Username or Password",
+      "GIIN_DATA": ""
+    },
+    "LISTMATCH_RESULT": {
+      "LISTSMATCH_CODE": "10",
+      "LISTSMATCH_DETAILS": "Login denied: Invalid Username or Password",
+      "Results": null
+    },
+    "ADDRESS_RESULT": {
+      "ADDRESS_CODE": "10",
+      "ADDRESS_DETAILS": "Login denied: Invalid Username or Password"
+    },
+    "STATUS": {
+      "Status": "LoginFailed",
+      "CallsRemaining": ""
+    }
+  }
+}

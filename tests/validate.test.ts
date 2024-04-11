@@ -2,6 +2,7 @@ import { writeFile } from "node:fs/promises";
 import unknownError from "./__mocks__/unknownError.json";
 import validEINNoIssues from "./__mocks__/validEIN-noIssues.json";
 import validEINIssuesFound from "./__mocks__/validEIN-issuesFound.json";
+import loginFailed from "./__mocks__/loginFailed.json";
 import invalidFormatting from "./__mocks__/invalidFormatting.json";
 import invalidEIN from "./__mocks__/invalidEIN.json";
 import { describe, expect, afterEach, vi, test } from "vitest";
@@ -66,6 +67,13 @@ describe("TinCheck Validate Method Tests", () => {
       "No TIN provided. TIN lookup skipped.",
     ]);
     await toMatchMockResponse("UnknownError", response);
+  });
+
+  test("Should report when login credentials are invalid", async () => {
+    vi.spyOn(tinCheck, "send").mockReturnValue(Promise.resolve(loginFailed));
+    await expect(() => tinCheck.validate("111-111-111", "222")).rejects.toThrow(
+      "Request returned incorrect REQUEST_STATUS code 10",
+    );
   });
 
   test("Should report when tin is not formatted properly", async () => {
