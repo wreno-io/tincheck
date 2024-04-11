@@ -4,3 +4,4 @@ tincheck-*.json
 dist
 .DS_Store
 package
+coverage

@@ -3,6 +3,7 @@ import unknownError from "./__mocks__/unknownError.json";
 import validEINNoIssues from "./__mocks__/validEIN-noIssues.json";
 import validEINIssuesFound from "./__mocks__/validEIN-issuesFound.json";
 import invalidFormatting from "./__mocks__/invalidFormatting.json";
+import invalidEIN from "./__mocks__/invalidEIN.json";
 import { describe, expect, afterEach, vi, test } from "vitest";
 import TinCheck from "../src/tincheck.js";
 import type { ValidateResponse } from "../src/types/ValidateResponse.js";
@@ -79,6 +80,18 @@ describe("TinCheck Validate Method Tests", () => {
       "TIN must be numeric and 9 digits in length",
     ]);
     await toMatchMockResponse("InvalidFormatting", response);
+  });
+
+  test("Should report when tin is not found", async () => {
+    vi.spyOn(tinCheck, "send").mockReturnValue(Promise.resolve(invalidEIN));
+    const response = await tinCheck.validate("111-111-111", "222");
+    expect(response.success).toBe(true);
+    expect(response.data.didPerformTinCheck).toBe(false);
+    expect(response.data.isTinCheckIssuesFound).toBe(true);
+    expect(response.data.errorSummary).toEqual([
+      "Invalid TIN Matching request",
+    ]);
+    await toMatchMockResponse("InvalidEIN", response);
   });
 
   test("should report successfully when lookup is successful", async () => {
