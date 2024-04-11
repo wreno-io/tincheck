@@ -2,7 +2,9 @@ import * as soap from "soap";
 import keyOverrides from "./transformResponse/keyOverrides.js";
 import transformResponse from "./transformResponse/transformResponse.js";
 import valueMappers from "./transformResponse/valueMappers.js";
-import type { ValidateTinNameAddressListMatchResponse } from "./types/ValidateTinResponse.js";
+import type { DetailedValidateTinNameAddressListMatchResponse } from "./types/DetailedValidateTinResponse.js";
+import type { ValidateResponse } from "./types/ValidateResponse.js";
+import normalizeTinCheckResponse from "./normalizers/normalizeTinCheckResponse.js";
 
 interface ConstructorArgs {
   username: string;
@@ -31,7 +33,7 @@ class TinCheck {
     return await this.send("ServiceStatus");
   }
 
-  async validate(tin: string, name: string) {
+  async validate(tin: string, name: string): Promise<ValidateResponse> {
     // remove dashes from tin
     const sanitizedTin = tin.replace(/-/g, "");
     const response = await this.send("ValidateTinNameAddressListMatch", {
@@ -39,19 +41,26 @@ class TinCheck {
     });
     const transformed = this.transformResponse(
       response,
-      // TODO: We may want to validate this response before continuing
-    ) as ValidateTinNameAddressListMatchResponse;
+      // TODO: We may want to add validation to the response before continuing
+    ) as DetailedValidateTinNameAddressListMatchResponse;
 
+    // If the response is not what we expect, throw an error
     if (!transformed.validateTinNameAddressListMatchResult) {
       throw new Error("Incorrect Response from Service");
     }
+    // If the request status is not 1, throw an error
+    // 1 is the expected value for a successful request
     const result = transformed.validateTinNameAddressListMatchResult;
     if (result.requestStatus !== 1) {
       throw new Error(
         `Request Turned incorrect REQUEST_STATUS code ${result.requestStatus}`,
       );
     }
-    return result;
+    // At this point, we know the request is successful,
+    // there is however a chance that the TIN is not found
+    // or other issues are found. We will no longer throw an error
+    // but we will return the result
+    return normalizeTinCheckResponse(result);
   }
 
   async send(func: string, args?: Record<string, any>) {
@@ -64,8 +73,6 @@ class TinCheck {
       },
       ...(args || {}),
     });
-    console.log("SEND");
-    // TODO: error handling
     return response[0];
   }
 

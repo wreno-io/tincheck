@@ -8,6 +8,7 @@ const valueMappers: ValueMappers = {
   REQUESTID: toNumber,
   REQUEST_STATUS: toNumber,
   TINNAME_CODE: toNumber,
+  LISTSMATCH_CODE: toNumber,
 };
 
 export default valueMappers;

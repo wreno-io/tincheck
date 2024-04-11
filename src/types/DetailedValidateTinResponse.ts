@@ -1,6 +1,6 @@
 // Generated with https://transform.tools/json-to-typescript
 
-export interface ValidateTinNameAddressListMatchResponse {
+export interface DetailedValidateTinNameAddressListMatchResponse {
   validateTinNameAddressListMatchResult: Root;
 }
 export interface Root {
@@ -28,7 +28,7 @@ export interface TinnameResult {
 }
 
 export interface ListmatchResult {
-  listsmatchCode: string;
+  listsmatchCode: number;
   listsmatchDetails: string;
   ofacResult: OfacResult;
   nvResult: NvResult;
