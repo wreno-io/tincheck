@@ -32,7 +32,7 @@ const tinCheck = new TinCheck({
   username: "your-username",
   password: "your-password",
 });
-const result = await tinCheck.validate("123456789" "ACME Corp");
+const result = await tinCheck.validate("123456789", "ACME Corp");
 // Result will contain a normalized overview of the results,
 // as well as a detailed response from the API
 console.log(result);
