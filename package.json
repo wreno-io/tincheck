@@ -14,14 +14,18 @@
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
-    "./types": "./dist/index.d.ts",
-    "./mockResponses/*": "./dist/mockResponses/*"
+    "./mock-responses": {
+      "require": "./dist/mockResponses.cjs",
+      "import": "./dist/mockResponses.js",
+      "types": "./dist/mockResponses.d.ts"
+    }
   },
   "type": "module",
   "scripts": {
-    "build": "tsup src/index.ts --format=cjs,esm --dts --clean --publicDir",
+    "build": "tsup src/index.ts src/mockResponses.ts --format=cjs,esm --dts --clean --publicDir",
     "debug": "tsx watch --env-file=.env ./tests/getRawResponse",
     "test": "vitest",
     "prepublishOnly": "npm run build",

@@ -91,7 +91,7 @@ This package includes mock data for the API responses. You can use this data to 
 To use the mock data, you can import mocks from the following path:
 
 ```js
-import validEINNoIssues from "tincheck/mockResponses/ValidEIN-NoIssues.json";
+import { validEINNoIssues } from "tincheck";
 ```
 
 See the `public/mockResponses` folder for more examples of scenarios you can test.

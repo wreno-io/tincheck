@@ -30,13 +30,13 @@ export interface TinnameResult {
 export interface ListmatchResult {
   listsmatchCode: number;
   listsmatchDetails: string;
-  ofacResult: OfacResult;
-  nvResult: NvResult;
-  msResult: MsResult;
-  ilResult: IlResult;
-  moResult: MoResult;
-  njResult: NjResult;
-  results: Results;
+  ofacResult?: OfacResult;
+  nvResult?: NvResult;
+  msResult?: MsResult;
+  ilResult?: IlResult;
+  moResult?: MoResult;
+  njResult?: NjResult;
+  results: Results | null;
 }
 
 export interface OfacResult {
