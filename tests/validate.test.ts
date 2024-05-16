@@ -4,6 +4,7 @@ import TinCheck from "../src/tincheck.js";
 import type { ValidateResponse } from "../src/types/ValidateResponse.js";
 import invalidEIN from "./__mocks__/invalidEIN.json";
 import invalidFormatting from "./__mocks__/invalidFormatting.json";
+import deceasedPerson from "./__mocks__/deceasedPerson.json";
 import loginFailed from "./__mocks__/loginFailed.json";
 import unknownError from "./__mocks__/unknownError.json";
 import validEINIssuesFound from "./__mocks__/validEIN-issuesFound.json";
@@ -88,6 +89,18 @@ describe("TinCheck Validate Method Tests", () => {
       "TIN must be numeric and 9 digits in length",
     ]);
     await toMatchMockResponse("InvalidFormatting", response);
+  });
+
+  test("Should report when deceased person is validated", async () => {
+    vi.spyOn(tinCheck, "send").mockReturnValue(Promise.resolve(deceasedPerson));
+    const response = await tinCheck.validate("111-111-111", "222");
+    expect(response.success).toBe(true);
+    expect(response.data.didPerformTinCheck).toBe(false);
+    expect(response.data.isTinCheckIssuesFound).toBe(true);
+    expect(response.data.errorSummary).toEqual([
+      "No IRS Match found. TIN and Name combination does not match IRS records",
+    ]);
+    await toMatchMockResponse("DeceasedPerson", response);
   });
 
   test("Should report when tin is not found", async () => {
