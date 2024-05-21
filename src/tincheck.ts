@@ -12,7 +12,7 @@ interface ConstructorArgs {
 }
 
 const config = {
-  url: "https://www.tincheck.com/pvsws/pvsservice.asmx?wsdl",
+  url: "https://api.tincheck.com/pvsws/pvsservice.asmx",
 };
 
 class TinCheck {
