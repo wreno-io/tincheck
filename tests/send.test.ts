@@ -24,7 +24,7 @@ describe("TinCheck send Method Tests", () => {
     });
     expect(mock).toBeCalled();
     expect(mock).toBeCalledWith(
-      "https://www.tincheck.com/pvsws/pvsservice.asmx?wsdl",
+      "https://api.tincheck.com/pvsws/pvsservice.asmx",
     );
   });
 
