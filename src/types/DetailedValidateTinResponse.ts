@@ -82,7 +82,7 @@ export interface NjResult {
 }
 
 export interface Results {
-  result: Result[];
+  result: Result[] | null;
 }
 
 export interface Result {

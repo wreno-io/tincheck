@@ -44,11 +44,13 @@ export default function normalizeTinCheckResponse(
 function getTinCheckItemBreakdown(
   request: DetailedValidateTinNameAddressListMatchResponse["validateTinNameAddressListMatchResult"],
 ) {
-  return request.listmatchResult.results.result.map((item) => {
-    return {
-      type: item.type,
-      isIssueFound: item.count > 0,
-      details: item.details,
-    };
-  });
+  return (
+    request.listmatchResult.results.result?.map((item) => {
+      return {
+        type: item.type,
+        isIssueFound: item.count > 0,
+        details: item.details,
+      };
+    }) || []
+  );
 }
