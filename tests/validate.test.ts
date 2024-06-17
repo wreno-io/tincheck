@@ -9,6 +9,7 @@ import loginFailed from "./__mocks__/loginFailed.json";
 import unknownError from "./__mocks__/unknownError.json";
 import validEINIssuesFound from "./__mocks__/validEIN-issuesFound.json";
 import validEINNoIssues from "./__mocks__/validEIN-noIssues.json";
+import errorProcessingLists from "./__mocks__/errorProcessingLists.json";
 
 /**
  * Utility function to ensure that the snapshot matches.
@@ -89,6 +90,15 @@ describe("TinCheck Validate Method Tests", () => {
       "TIN must be numeric and 9 digits in length",
     ]);
     await toMatchMockResponse("InvalidFormatting", response);
+  });
+
+  test("Should report when there is an error processing lists", async () => {
+    vi.spyOn(tinCheck, "send").mockReturnValue(
+      Promise.resolve(errorProcessingLists),
+    );
+    expect(tinCheck.validate("111-111-111", "222")).rejects.toThrow(
+      'Request returned incorrect LISTSMATCH_CODE 17. Message: "There was an error processing lists."',
+    );
   });
 
   test("Should report when deceased person is validated", async () => {
