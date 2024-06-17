@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.4 
+
+- Added support for handling errors when `LISTMATCH_CODE` returns a failed status code.
+
 ## v1.0.3
 
 - Update `tincheck` service to use the new endpoint. [More Info](https://tincheck.help.sovos.com/hc/en-us/articles/22565160332823-API-Update-May-20-2024)
