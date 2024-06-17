@@ -3,13 +3,13 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 import TinCheck from "../src/tincheck.js";
 import type { ValidateResponse } from "../src/types/ValidateResponse.js";
 import deceasedPerson from "./__mocks__/deceasedPerson.json";
+import errorProcessingLists from "./__mocks__/errorProcessingLists.json";
 import invalidEIN from "./__mocks__/invalidEIN.json";
 import invalidFormatting from "./__mocks__/invalidFormatting.json";
 import loginFailed from "./__mocks__/loginFailed.json";
 import unknownError from "./__mocks__/unknownError.json";
 import validEINIssuesFound from "./__mocks__/validEIN-issuesFound.json";
 import validEINNoIssues from "./__mocks__/validEIN-noIssues.json";
-import errorProcessingLists from "./__mocks__/errorProcessingLists.json";
 
 /**
  * Utility function to ensure that the snapshot matches.

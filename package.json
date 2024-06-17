@@ -25,19 +25,19 @@
     "debug": "tsx watch --env-file=.env ./tests/getRawResponse",
     "test": "vitest",
     "prepublishOnly": "npm run build",
-    "lint": "npx @biomejs/biome check --apply . && tsc --noEmit"
+    "lint": "npx @biomejs/biome check --write . && tsc --noEmit"
   },
   "dependencies": {
     "camelcase": "^6.3.0",
-    "soap": "^1.0.0"
+    "soap": "^1.0.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.6.4",
+    "@biomejs/biome": "^1.8.1",
     "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^20.12.4",
-    "tsup": "^8.0.2",
-    "tsx": "^4.7.2",
-    "typescript": "^5.4.4",
-    "vitest": "^1.4.0"
+    "@types/node": "^20.14.2",
+    "tsup": "^8.1.0",
+    "tsx": "^4.15.6",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
   }
 }
