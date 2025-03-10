@@ -1,7 +1,7 @@
 import type { DetailedValidateTinNameAddressListMatchResponse } from "./DetailedValidateTinResponse.js";
 
 export type ValidateResponse = {
-  success: true;
+  success: boolean;
   data: {
     didPerformTinCheck: boolean;
     isTinCheckIssuesFound: boolean;

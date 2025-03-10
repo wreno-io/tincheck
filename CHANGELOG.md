@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.5
+
+- Added support for handling service unavailable when `TINNAME_CODE` returns a failed result code.
+
 ## v1.0.4 
 
 - Added support for handling errors when `LISTMATCH_CODE` returns a failed status code.
