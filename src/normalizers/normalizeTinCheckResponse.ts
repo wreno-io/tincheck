@@ -1,14 +1,31 @@
 import type { DetailedValidateTinNameAddressListMatchResponse } from "../types/DetailedValidateTinResponse.js";
 import type { ValidateResponse } from "../types/ValidateResponse.js";
 
-// code details can be found here: https://www.tincheck.com/pages/developer
+// code details can be found here: https://tincheck.help.sovos.com/hc/en-us/sections/21199547141399-API
 const VALID_TINNAME_CODES = [1, 6, 7, 8];
 const VALID_LISTMATCH_CODE = 0;
 const ISSUES_FOUND_LISTMATCH_CODE = 1;
+const SERVICE_UNAVAILABLE_TINNAME_CODE = 17;
 
 export default function normalizeTinCheckResponse(
   request: DetailedValidateTinNameAddressListMatchResponse["validateTinNameAddressListMatchResult"],
 ): ValidateResponse {
+  const isServiceUnavailable =
+    request.tinnameResult.tinnameCode === SERVICE_UNAVAILABLE_TINNAME_CODE;
+
+  if (isServiceUnavailable) {
+    return {
+      success: false,
+      data: {
+        didPerformTinCheck: false,
+        isTinCheckIssuesFound: false,
+        errorSummary: [request.tinnameResult.tinnameDetails],
+        tinCheckItemBreakdown: [],
+      },
+      detailedResponse: request,
+    };
+  }
+
   const didPerformTinCheck = VALID_TINNAME_CODES.includes(
     request.tinnameResult.tinnameCode,
   );
